@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SleepWell</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe"
+          crossorigin="anonymous">
+</head>
+<body class="bg-body-tertiary d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand bg-1">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="font-family: 'Arial Black', sans-serif;" href="#">SleepWell</a>
+            <button class="btn-icon navbar-toggler" type="button"
+                    data-bs-toggle="drawer" data-bs-target="#navbarDrawer"
+                    aria-controls="navbarDrawer" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" aria-hidden="true"></span>
+            </button>
+            <dialog class="drawer drawer-end" tabindex="-1" id="navbarDrawer" aria-labelledby="navbarDrawerLabel">
+                <div class="drawer-header">
+                    <h5 class="drawer-title" id="navbarDrawerLabel">Меню</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+                </div>
+                <div class="drawer-body mb-2 md:mb-0">
+                    <ul class="nav navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Профиль</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Главная</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/catalog">Каталог</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Корзина</a>
+                        </li>
+                    </ul>
+                    <form class="hstack gap-2" role="search">
+                        <input class="form-control" type="search" placeholder="Поиск" aria-label="Search">
+                        <button class="btn-solid btn-icon theme-secondary" type="submit">
+                            <svg class="bi" width="16" height="16"><use href="#search" /></svg>
+                        </button>
+                    </form>
+                </div>
+            </dialog>
+        </div>
+    </nav>
+    
+    <div class="Katalog-title">
+        <h1>Каталог</h1>
+    </div>
+    <div class="tovari" id="catalog"></div>
+    
+    <style>
+        .Katalog-title {
+            font-family: "Arial Black", sans-serif;
+            font-size: 30px;
+            margin: 20px 5px;
+        }
+
+        .tovari {
+            background-color: #cffcec;
+            color: #000;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 5px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-image {
+            margin: 0 0 12px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .product-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-family: "Arial Narrow";
+            font-size: 25px;
+            margin: 0 0 8px;
+        }
+        .product-price {
+            font-family: "Arial Narrow";
+            font-size: 20px;
+        }
+        .product-description {
+            font-family: "Arial Narrow";
+            font-size: 20px;
+            color: #555;
+            margin: 0 0 12px;
+        }
+        .product-button {
+            background-color: #b8ffe5;
+            border: none;
+            font-family: "Arial Narrow", sans-serif;
+            font-size: 20px;
+            border-radius: 10px;
+            padding: 6px 14px;
+            cursor: pointer;
+        }
+        .product-button:hover {
+            background-color: #8ff5cf;
+        }
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            gap: 10px;
+        }
+    </style>
+
+    <script>
+        const products = [
+  { id: 1,  cat: 1, name: "Матрас DreamLine",                 price: 18990, stock: 12, img: "/static/matras/matras_Dreamline.jpg" },
+  { id: 2,  cat: 1, name: "Матрас BeautySon",                 price: 22490, stock: 8,  img: "/static/matras/matras_Beautyson.jpg" },
+  { id: 3,  cat: 1, name: "Матрас Brown",                     price: 15600, stock: 15, img: "/static/matras/matras_Brown.jpg" },
+  { id: 4,  cat: 1, name: "Матрас Halal",                     price: 8900,  stock: 20, img: "/static/matras/matras_halal.jpg" },
+  { id: 5,  cat: 1, name: "Матрас Lineflex",                  price: 27900, stock: 6,  img: "/static/matras/matras_Lineflex.jpg" },
+  { id: 6,  cat: 1, name: "Матрас Style Retro",               price: 19400, stock: 10, img: "/static/matras/matras_Style_Retro.jpg" },
+  { id: 7,  cat: 1, name: "Матрас Unit",                      price: 24800, stock: 7,  img: "/static/matras/matras_Unit.jpg" },
+  { id: 8,  cat: 1, name: "Матрас VitaFlex",                  price: 16700, stock: 11, img: "/static/matras/matras_Vitaflex.jpg" },
+  { id: 9,  cat: 1, name: "Матрас DreamLine Комфорт",         price: 11200, stock: 14, img: "/static/matras/matrass_dreamline_komfort.jpg" },
+  { id: 10, cat: 2, name: "Подушка анатомическая Delicatex",  price: 3290,  stock: 25, img: "/static/podushki/podushki_anatomich_Delicatex.jpg" },
+  { id: 11, cat: 2, name: "Подушка анатомическая Вела",       price: 4590,  stock: 18, img: "/static/podushki/podushki_anatomich_vela.jpg" },
+  { id: 12, cat: 2, name: "Подушка анатомическая",            price: 2870,  stock: 22, img: "/static/podushki/podushki_anatomich.jpg" },
+  { id: 13, cat: 2, name: "Подушка Deluna",                   price: 3150,  stock: 30, img: "/static/podushki/podushki_deluna.jpg" },
+  { id: 14, cat: 2, name: "Подушка эргономичная",             price: 5490,  stock: 9,  img: "/static/podushki/podushki_ergonomich.jpg" },
+  { id: 15, cat: 2, name: "Подушка гипфел Арно",              price: 1290,  stock: 15, img: "/static/podushki/podushki_gipfel_arno.jpg" },
+  { id: 16, cat: 2, name: "Подушка Kupu",                     price: 2190,  stock: 20, img: "/static/podushki/podushki_Kupu.jpg" },
+  { id: 17, cat: 2, name: "Подушка Sterling Home",            price: 3490,  stock: 12, img: "/static/podushki/podushki_Sterling_home.jpg" },
+  { id: 18, cat: 3, name: "Одеяло Avitek",                    price: 6790,  stock: 16, img: "/static/odeyal/odeyalo_Avitek.jpg" },
+  { id: 19, cat: 3, name: "Одеяло DENULA Puro",               price: 8290,  stock: 12, img: "/static/odeyal/odeyalo_DENULA_Puro.jpg" },
+  { id: 20, cat: 3, name: "Одеяло Euro HOFF",                 price: 7450,  stock: 10, img: "/static/odeyal/odeyalo_euro_HOFF.jpg" },
+  { id: 21, cat: 3, name: "Одеяло Iv Shey Standart",          price: 10200, stock: 7,  img: "/static/odeyal/odeyalo_IV_Shey_Standart.jpg" },
+  { id: 22, cat: 3, name: "Одеяло Лебедяхи пух",              price: 3890,  stock: 20, img: "/static/odeyal/odeyalo_Lebedyaghi_puh.jpg" },
+  { id: 23, cat: 3, name: "Одеяло MOYE original",             price: 5890,  stock: 14, img: "/static/odeyal/odeyalo_MOYE_original.jpg" },
+  { id: 24, cat: 3, name: "Одеяло Северное сияние",           price: 7290,  stock: 9,  img: "/static/odeyal/odeyalo_severnoe_siyanie.jpg" },
+  { id: 25, cat: 3, name: "Одеяло Верблюд",                   price: 9590,  stock: 8,  img: "/static/odeyal/odeyalo_Verblud.jpg" },
+  { id: 26, cat: 3, name: "Одеяло Wool Siberia",              price: 8490,  stock: 11, img: "/static/odeyal/Odeyalo_Wool_Siberia.jpg" },
+  { id: 27, cat: 4, name: "Маска космос Follow",              price: 1290,  stock: 40, img: "/static/maski/maska_kosmos_Follow.jpg" },
+  { id: 28, cat: 4, name: "Маска Momme",                      price: 1590,  stock: 35, img: "/static/maski/maska_Momme.jpg" },
+  { id: 29, cat: 4, name: "Маска Selique",                    price: 990,   stock: 28, img: "/static/maski/maska_Selique.jpg" },
+  { id: 30, cat: 4, name: "Маска Shelk Light",                price: 1190,  stock: 32, img: "/static/maski/maska_shelk_light.jpg" },
+  { id: 31, cat: 4, name: "Маска Shelk",                      price: 690,   stock: 50, img: "/static/maski/maska_shelk.jpg" },
+  { id: 32, cat: 5, name: "Беруши 4 комфорт",                 price: 590,   stock: 60, img: "/static/berushi/berushi_4_komfort.jpg" },
+  { id: 33, cat: 5, name: "Беруши 4",                         price: 390,   stock: 80, img: "/static/berushi/berushi_4.jpg" },
+  { id: 34, cat: 5, name: "Беруши Elite",                     price: 490,   stock: 45, img: "/static/berushi/berushi_elite.jpg" },
+  { id: 35, cat: 5, name: "Беруши Happy Ears",                price: 450,   stock: 55, img: "/static/berushi/berushi_happy_ears.jpg" },
+  { id: 36, cat: 5, name: "Беруши Комфорт",                   price: 720,   stock: 38, img: "/static/berushi/berushi_komfort.jpg" },
+  { id: 37, cat: 5, name: "Беруши SoundBlock",                price: 830,   stock: 30, img: "/static/berushi/berushi_soundblock.jpg" }
+    ];  <!-- это короче массив, тут все товары с бд  -->
+
+
+        document.getElementById('catalog').innerHTML = products.map(p => `   
+            <article class="product-card">
+                <figure class="product-image">
+                    <img src="${p.img}" alt="${p.name}">
+                </figure>
+                <div class="product-content">
+                    <h3 class="product-title">${p.name}</h3>
+                    <p class="product-description">${p.desc}</p>
+                    <div class="product-footer">
+                        <span class="product-price">${p.price} руб</span>
+                        <button class="product-button">В корзину</button>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+
+        <!-- тут типо для каждого товара из массива, делаем html карточку, которая выше готова уже, подставляем в неё данные и тд-->
+    </script>
+</body>
+</html>
