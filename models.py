@@ -53,4 +53,7 @@ class OrderItem(Base):
     order_id = Column(Integer, ForeignKey("orders.id"))
     product_id = Column(Integer, ForeignKey("products.id"))
     quantity = Column(Integer)
+    user_email = Column(String, nullable=True) 
+    product_name = Column(String)
+    price = Column(Integer) 
     price_at_purchase = Column(Numeric(10, 2))

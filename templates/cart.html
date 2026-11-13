@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SleepWell — Корзина</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+</head>
+<body class="bg-body-tertiary d-flex flex-column min-vh-100">
+
+    <!-- Навигация -->
+    <nav class="navbar md:navbar-expand bg-1">
+      <div class="container-fluid">
+        <a class="navbar-brand" style="font-family: Arial Black, sans-serif;" href="/">SleepWell</a>
+        <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarDrawer" aria-controls="navbarDrawer" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" aria-hidden="true"></span>
+        </button>
+        <dialog class="drawer drawer-end" tabindex="-1" id="navbarDrawer" aria-labelledby="navbarDrawerLabel">
+          <div class="drawer-header">
+            <h5 class="drawer-title" id="navbarDrawerLabel">Меню</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+          </div>
+          <div class="drawer-body mb-2 md:mb-0">
+            <ul class="nav navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/account">Профиль</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Главная</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/catalog">Каталог</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/cart">Корзина</a>
+              </li>
+            </ul>
+            <form class="hstack gap-2" role="search">
+              <input class="form-control" type="search" placeholder="Поиск" aria-label="Search"/>
+              <button class="btn-solid btn-icon theme-secondary" type="submit">
+                <svg class="bi" width="16" height="16"><use href="#search" /></svg>
+              </button>
+            </form>
+          </div>
+        </dialog>
+      </div>
+    </nav>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+
+    <main class="container" style="max-width: 800px; margin-top: 30px; flex: 1;">
+        <h1 style="font-family: 'Arial Black', sans-serif; color: #205935;">Ваша корзина</h1>
+        
+        <div style="background-color: #cffcec; padding: 20px; border-radius: 15px; margin-top: 20px;">
+            <div style="background-color: white; padding: 30px; border-radius: 15px;">
+                
+                {% if not items %}
+                    <p style="font-size: 22px; text-align: center; font-family: 'Arial Narrow', sans-serif;">Корзина пуста</p>
+                {% else %}
+                    <ul style="list-style: none; padding: 0; font-size: 20px; font-family: 'Arial Narrow', sans-serif;">
+                        {% for item in items %}
+                            <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 15px 0;">
+                                <span style="flex: 1;"><b>{{ item.product_name }}</b></span>
+                                <span style="margin-right: 20px;">{{ item.price }} ₽</span>
+                                <form method="post" action="/remove-from-cart/{{ item.id }}" style="margin: 0;">
+                                    <button type="submit" style="background: #ffcccc; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; color: #d64545; font-weight: bold;">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <h3 style="text-align: right; font-size: 24px; margin-top: 20px; font-family: 'Arial Narrow', sans-serif;">
+                        Итого: <span style="color: #205935; font-family: 'Arial Black', sans-serif;">{{ total }} ₽</span>
+                    </h3>
+                {% endif %}
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="/catalog" style="text-decoration: none; color: #205935; font-size: 20px; font-weight: bold; font-family: 'Arial Narrow', sans-serif;">
+                        ← Вернуться в каталог
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
