@@ -49,17 +49,49 @@
             </dialog>
         </div>
     </nav>
-    
+
     <div class="Katalog-title">
         <h1>Каталог</h1>
     </div>
+
+    <div class="filters">
+        <select id="filterCat">
+            <option value="all">Все категории</option>
+            <option value="1">Матрасы</option>
+            <option value="2">Подушки</option>
+            <option value="3">Одеяла</option>
+            <option value="4">Маски</option>
+            <option value="5">Беруши</option>
+            <option value="6">Бельё</option>
+        </select>
+        <select id="filterSort">
+            <option value="default">Без сортировки</option>
+            <option value="asc">Цена ↑</option>
+            <option value="desc">Цена ↓</option>
+        </select>
+    </div>
+
     <div class="tovari" id="catalog"></div>
-    
+
     <style>
         .Katalog-title {
             font-family: "Arial Black", sans-serif;
             font-size: 30px;
             margin: 20px 5px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin: 0 5px 15px;
+        }
+        .filters select {
+            font-family: "Arial Narrow", sans-serif;
+            font-size: 18px;
+            padding: 8px 10px;
+            border: 1px solid #a3f5d6;
+            border-radius: 8px;
+            background: #cffcec;
         }
 
         .tovari {
@@ -180,30 +212,34 @@
   { id: 41, cat: 6, name: "Постельное бельё Everett",         price: 1660,  stock: 43, img: "/static/belio/belyo_Everett.jpg"}
     ];  <!-- это короче массив, тут все товары с бд  -->
 
+        function render() {
+            let list = products.filter(p =>
+                filterCat.value === 'all' || p.cat == filterCat.value
+            );
+            if (filterSort.value === 'asc')  list.sort((a, b) => a.price - b.price);
+            if (filterSort.value === 'desc') list.sort((a, b) => b.price - a.price);
 
-        document.getElementById('catalog').innerHTML = products.map(p => `   
-    <article class="product-card">
-        <figure class="product-image">
-            <img src="${p.img}" alt="${p.name}">
-        </figure>
-        <div class="product-content">
-            <h3 class="product-title">${p.name}</h3>
-            <div class="product-footer">
-                <span class="product-price">${p.price} руб</span>
-                
-                <!-- ВОТ ЗДЕСЬ МЫ ДОБАВИЛИ ФОРМУ -->
-                <form method="post" action="/add-to-cart" style="margin: 0;">
-                    <input type="hidden" name="product_name" value="${p.name}">
-                    <input type="hidden" name="price" value="${p.price}">
-                    <button type="submit" class="product-button">В корзину</button>
-                </form>
-                        
+            document.getElementById('catalog').innerHTML = list.map(p => `
+                <article class="product-card">
+                    <figure class="product-image"><img src="${p.img}" alt="${p.name}"></figure>
+                    <div class="product-content">
+                        <h3 class="product-title">${p.name}</h3>
+                        <div class="product-footer">
+                            <span class="product-price">${p.price} руб</span>
+                            <form method="post" action="/add-to-cart" style="margin:0;">
+                                <input type="hidden" name="product_name" value="${p.name}">
+                                <input type="hidden" name="price" value="${p.price}">
+                                <button type="submit" class="product-button">В корзину</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </article>
-        `).join('');
+                </article>
+            `).join('');
+        }
 
-        <!-- тут типо для каждого товара из массива, делаем html карточку, которая выше готова уже, подставляем в неё данные и тд-->
+        filterCat.onchange = render;
+        filterSort.onchange = render;
+        render();
     </script>
 </body>
 </html>
