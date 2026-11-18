@@ -4,55 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Личный кабинет — SleepWell</title>
-    <!-- Это с bootstrap короче -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
 </head>
 <body class="bg-body-tertiary d-flex flex-column min-vh-100">
-    <nav class="navbar md:navbar-expand bg-1">
-  <div class="container-fluid">
-    <a class="navbar-brand" style= "font-family: Arial Black, sans-serif;" href="/">SleepWell</a>
-    <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarDrawer" aria-controls="navbarDrawer" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" aria-hidden="true"></span>
-    </button>
-    <dialog class="drawer drawer-end" tabindex="-1" id="navbarDrawer" aria-labelledby="navbarDrawerLabel">
-      <div class="drawer-header">
-        <h5 class="drawer-title" id="navbarDrawerLabel">Меню</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
-      </div>
-      <div class="drawer-body mb-2 md:mb-0">
-        <ul class="nav navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/account">Профиль</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/">Главная</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/catalog">Каталог</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/cart">Корзина</a>
-          </li>
+
+    <nav class="sw-navbar">
+      <div class="sw-navbar-inner">
+        <a class="sw-brand" href="/">SleepWell</a>
+        <ul class="sw-links">
+          <li><a href="/">Главная</a></li>
+          <li><a href="/catalog">Каталог</a></li>
+          <li><a href="/cart">Корзина</a></li>
+          <li><a href="/account" class="active">Профиль</a></li>
         </ul>
-        <form class="hstack gap-2" role="search">
-          <input class="form-control" type="search" placeholder="Поиск" aria-label="Search"/>
-          <button class="btn-solid btn-icon theme-secondary" type="submit">
-            <svg class="bi" width="16" height="16"><use href="#search" /></svg>
-          </button>
+        <form class="sw-search" role="search">
+          <input type="search" placeholder="Поиск" aria-label="Search">
+          <button type="submit">Найти</button>
         </form>
       </div>
-    </dialog>
-  </div>
-</nav>
+    </nav>
+
     <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
 
-    <!-- Заголовок личного кабинета -->
-    <div class="info-box" style="display: flex; justify-content: space-between; align-items: center;">
-        <h1 style="margin: 0;">Личный кабинет</h1>
+    <div class="info-box account-header">
+        <h1>Личный кабинет</h1>
         <a href="/logout" class="logout-btn">Выйти</a>
     </div>
+
     <div class="profile-grid">
-        <div class="info-box" style="margin: 5px;">
+        <div class="info-box">
             <div class="profile-card">
                 <h2 class="profile-card-title">Личные данные</h2>
                 <p class="profile-text"><b>Имя:</b> {{ user.full_name }}</p>
@@ -61,13 +41,11 @@
             </div>
         </div>
 
-        <div class="info-box" style="margin: 5px;">
+        <div class="info-box">
             <div class="profile-card">
                 <h2 class="profile-card-title">Статус</h2>
                 <p class="profile-text"><b>Дата регистрации:</b> {{ user.created_at.strftime('%d.%m.%Y') }}</p>
-                <div class="status-badge">
-                    ✓ Аккаунт активен
-                </div>
+                <div class="status-badge">✓ Аккаунт активен</div>
             </div>
         </div>
     </div>
@@ -75,93 +53,46 @@
     <hr class="lel">
 
     <style>
-        .info-box {
-            background-color: #cffcec;
-            color: #000000;
-            padding: 30px 30px;
-            border-radius: 15px;
-            margin: 5px;
-        }
-
-        .info-box h1 {
-            font-size: 30px;
-            font-family: "Arial Black";
-        }
-
-        .info-box p {
-            font-size: 23px;
-            font-family: "Arial Narrow";
-        }
-
-        .lol {
-            position: relative;
-            top: -15px;
-        }
-
-        .lel {
-            position: relative;
-            top: 12px;
-        }
-
-        .logout-btn {
-            color: #d64545;
-            text-decoration: none;
-            font-weight: 600;
-            font-family: "Arial Narrow";
-            font-size: 20px;
-            padding: 10px 25px;
-            border: 2px solid #d64545;
-            border-radius: 10px;
-            background-color: #ffffff;
-            transition: all 0.2s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #d64545;
-            color: #ffffff;
-        }
-
-        .profile-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .profile-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 30px;
-            height: 100%;
-        }
-
-        .profile-card-title {
-            color: #205935;
-            margin-bottom: 20px;
-            font-size: 22px;
-            font-family: "Arial Black", sans-serif;
-        }
-
-        .profile-text {
-            font-size: 20px;
-            font-family: "Arial Narrow", sans-serif;
-            margin-bottom: 10px;
-        }
-
-        .status-badge {
-            margin-top: 15px;
-            padding: 12px;
-            background: #e8f5e9;
-            border-radius: 8px;
-            color: #205935;
-            font-family: "Arial Narrow", sans-serif;
-            font-size: 20px;
-        }
-
+        * { box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
+        .sw-navbar { background: #cffcec; border-bottom: 1px solid #a3f5d6; position: sticky; top: 0; z-index: 1030; }
+        .sw-navbar-inner { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .sw-brand { font-family: "Arial Black", Arial, sans-serif; font-size: 22px; color: #205935; text-decoration: none; letter-spacing: 0.5px; flex: 0 0 auto; }
+        .sw-links { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; flex: 1 1 auto; }
+        .sw-links a { display: block; padding: 8px 12px; border-radius: 8px; color: #205935; text-decoration: none; font-family: "Arial Narrow", Arial, sans-serif; font-size: 17px; font-weight: 600; transition: background 0.15s; white-space: nowrap; }
+        .sw-links a:hover, .sw-links a.active { background: #b8ffe5; }
+        .sw-search { display: flex; gap: 6px; flex: 0 0 auto; }
+        .sw-search input { width: 160px; padding: 8px 10px; border: 1px solid #a3f5d6; border-radius: 8px; background: #f6fffb; font-family: "Arial Narrow", Arial, sans-serif; font-size: 15px; outline: none; }
+        .sw-search input:focus { border-color: #205935; }
+        .sw-search button { padding: 8px 14px; border: none; background: #b8ffe5; color: #205935; border-radius: 8px; font-family: "Arial Narrow", Arial, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; }
+        .sw-search button:hover { background: #9af5d6; }
+        .info-box { background-color: #cffcec; color: #000; padding: 24px; border-radius: 15px; margin: 8px; }
+        .info-box h1 { font-size: 26px; font-family: "Arial Black", Arial, sans-serif; margin: 0; }
+        .account-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+        .lel { position: relative; top: 12px; }
+        .logout-btn { color: #d64545; text-decoration: none; font-weight: 600; font-family: "Arial Narrow", Arial, sans-serif; font-size: 18px; padding: 8px 18px; border: 2px solid #d64545; border-radius: 10px; background-color: #fff; transition: all 0.2s ease; white-space: nowrap; }
+        .logout-btn:hover { background-color: #d64545; color: #fff; }
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .profile-card { background-color: #fff; border-radius: 15px; padding: 24px; height: 100%; }
+        .profile-card-title { color: #205935; margin-bottom: 20px; font-size: 20px; font-family: "Arial Black", Arial, sans-serif; }
+        .profile-text { font-size: 18px; font-family: "Arial Narrow", Arial, sans-serif; margin-bottom: 10px; word-break: break-word; }
+        .status-badge { margin-top: 15px; padding: 12px; background: #e8f5e9; border-radius: 8px; color: #205935; font-family: "Arial Narrow", Arial, sans-serif; font-size: 18px; }
         @media (max-width: 768px) {
-            .profile-grid {
-                grid-template-columns: 1fr;
-            }
+            .profile-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 720px) {
+            .sw-navbar-inner { gap: 8px; padding: 8px 10px; }
+            .sw-brand { font-size: 19px; }
+            .sw-links { order: 3; flex: 1 1 100%; justify-content: flex-start; gap: 2px; }
+            .sw-links a { padding: 7px 10px; font-size: 16px; }
+            .sw-search { order: 4; flex: 1 1 100%; }
+            .sw-search input { width: auto; flex: 1; }
+            .info-box { padding: 16px; margin: 8px; }
+            .info-box h1 { font-size: 21px; }
+            .logout-btn { font-size: 15px; padding: 7px 12px; }
+            .profile-card { padding: 16px; }
+            .profile-card-title { font-size: 18px; }
+            .profile-text, .status-badge { font-size: 16px; }
         }
     </style>
 </body>
